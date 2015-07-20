@@ -25,7 +25,7 @@ object Activity extends ParseObject {
         "objectId" -> JsString(storeID)
       )),
       "amountDonated" -> JsNumber(BigDecimal(amountDonated))
-    )), addHeaders(HashMap("limit" -> 100)))
+    )))
   }
 
   private def addHeaders(headers: HashMap[String, Any]): List[Option[String Tuple2 String]] = {

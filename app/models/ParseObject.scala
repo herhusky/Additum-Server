@@ -16,6 +16,9 @@ trait ParseObject {
   val ContentType = "Content-Type" -> "application/json"
   val baseURL = "https://api.parse.com/1/classes"
   val className: String
+  implicit val basicHeaders = HashMap("limit" -> 100) map {
+    case (k, v) => Some(k.toString, v.toString)
+  } toList
   implicit val context = play.api.libs.concurrent.Execution.Implicits.defaultContext
 
   /**
@@ -25,7 +28,7 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def createObject(data: JsValue, headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+  def createObject(data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
     return WS.url(baseURL + "/" + className)
       .withHeaders(ParseAppID, ParseRESTKey, ContentType)
       .withHeaders(headers.flatten.toSeq: _*)
@@ -40,7 +43,7 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def retrieveObject(objectId: String, headers: HashMap[String, String]): Future[WSResponse] = ???
+  def retrieveObject(objectId: String)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = ???
 
   /**
    * Updates the object with objectId and given class, with the given data. If you just want to
@@ -50,5 +53,5 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def updateObject(objectId: String, data: JsValue, headers: HashMap[String, String]): Future[WSResponse] = ???
+  def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = ???
 }
