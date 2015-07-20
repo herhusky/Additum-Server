@@ -25,9 +25,10 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def createObject(data: JsValue, headers: HashMap[String, String]): Future[WSResponse] = {
+  def createObject(data: JsValue, headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
     return WS.url(baseURL + "/" + className)
       .withHeaders(ParseAppID, ParseRESTKey, ContentType)
+      .withHeaders(headers.flatten.toSeq: _*)
       .withFollowRedirects(true)
       .post(data)
   }

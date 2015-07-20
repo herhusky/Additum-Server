@@ -24,6 +24,6 @@ case class Activity(userID: String, storeID: String, amountDonated: String) exte
         "objectId" -> JsString(storeID)
       )),
       "amountDonated" -> JsNumber(BigDecimal(amountDonated))
-    )), null)
+    )), List(Some("limit" -> "100")))
   }
 }
