@@ -2,8 +2,8 @@ package models
 
 import play.api.libs.json._
 import play.api.libs.ws.WSResponse
+import play.api.mvc.Headers
 
-import scala.collection.immutable.HashMap
 import scala.concurrent.Future
 
 /**
@@ -28,9 +28,7 @@ object Activity extends ParseObject {
     )))
   }
 
-  private def addHeaders(headers: HashMap[String, Any]): List[Option[String Tuple2 String]] = {
-    return headers map {
-      case (k, v) => Some(k.toString, v.toString)
-    } toList
+  def getActivity(id: String, headers: Headers): Future[WSResponse] = {
+    return super.retrieveObject(id)(addHeaders(headers))
   }
 }

@@ -9,6 +9,7 @@ GET         /                    controllers.Application.index
 GET         /assets/*file        controllers.Assets.at(path="/public", file)
 
 # Activity Routes
+GET         /activity/:id        controllers.Activity.getActivity(id: String)
 POST        /activity            controllers.Activity.createActivity
 
 # Charity Routes

@@ -3,6 +3,7 @@ package models
 import play.api.Play.current
 import play.api.libs.json.JsValue
 import play.api.libs.ws.{WS, WSResponse}
+import play.api.mvc.Headers
 
 import scala.collection.mutable.HashMap
 import scala.concurrent.Future
@@ -43,7 +44,13 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def retrieveObject(objectId: String)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = ???
+  def retrieveObject(objectId: String)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return WS.url(baseURL + "/" + className + "/" + objectId)
+      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
+      .withHeaders(headers.flatten.toSeq: _*)
+      .withFollowRedirects(true)
+      .get()
+  }
 
   /**
    * Updates the object with objectId and given class, with the given data. If you just want to
@@ -54,4 +61,16 @@ trait ParseObject {
    * @return
    */
   def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = ???
+
+  /**
+   * Converts Headers object to required param type for future function calls,
+   * also removes redundant headers from object
+   * @param headers
+   * @return
+   */
+  def addHeaders(headers: Headers): List[Option[String Tuple2 String]] = {
+    return headers.toSimpleMap.-("Accept").-("User-Agent").-("Content-type").-("Content-Length").-("Host").map {
+      case (k, v) => Some(k.toString, v.toString)
+    }.toList
+  }
 }
