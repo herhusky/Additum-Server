@@ -1,6 +1,5 @@
 package controllers
 
-import models.Activity
 import play.api.mvc.{Action, Controller}
 
 /**
@@ -10,11 +9,10 @@ object Activity extends Controller {
   def createActivity = Action.async { implicit request =>
     import scala.concurrent.ExecutionContext.Implicits.global
 
-    val tmpActivity = new Activity(request.body.asJson.get.\("userID").toString,
+    models.Activity.createActivity(request.body.asJson.get.\("userID").toString,
       request.body.asJson.get.\("storeID").toString,
       request.body.asJson.get.\("amountDonated").toString)
-
-    tmpActivity.createActivity map {
+      .map {
       response => Ok(response.json.toString)
     }
   }
