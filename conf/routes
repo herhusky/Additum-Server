@@ -15,6 +15,10 @@ POST        /activity            controllers.Activity.createActivity
 PUT         /activity/:id        controllers.Activity.updateActivity(id: String)
 
 # Charity Routes
+GET         /charity/:id         controllers.Charity.getCharity(id: String)
+GET         /charity             controllers.Charity.getCharities
+POST        /charity             controllers.Charity.createCharity
+PUT         /charity/:id         controllers.Charity.updateCharity(id: String)
 
 # User Routes
 

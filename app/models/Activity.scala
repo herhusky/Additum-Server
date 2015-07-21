@@ -13,19 +13,20 @@ object Activity extends ParseObject {
   val className = "Activity"
 
   def createActivity(userID: String, storeID: String, amountDonated: String): Future[WSResponse] = {
-    return super.createObject(JsObject(Seq(
-      "userID" -> JsObject(Seq(
-        "__type" -> JsString("Pointer"),
-        "className" -> JsString("_User"),
-        "objectId" -> JsString(userID)
-      )),
-      "storeID" -> JsObject(Seq(
-        "__type" -> JsString("Pointer"),
-        "className" -> JsString("Store"),
-        "objectId" -> JsString(storeID)
-      )),
-      "amountDonated" -> JsNumber(BigDecimal(amountDonated))
-    )))
+    return super.createObject(
+      JsObject(Seq(
+        "userID" -> JsObject(Seq(
+          "__type" -> JsString("Pointer"),
+          "className" -> JsString("_User"),
+          "objectId" -> JsString(userID)
+        )),
+        "storeID" -> JsObject(Seq(
+          "__type" -> JsString("Pointer"),
+          "className" -> JsString("Store"),
+          "objectId" -> JsString(storeID)
+        )),
+        "amountDonated" -> JsNumber(BigDecimal(amountDonated))
+      )))
   }
 
   def getActivity(id: String, headers: Headers, query: Map[String, Seq[String]]): Future[WSResponse] = {
