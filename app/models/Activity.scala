@@ -28,26 +28,16 @@ object Activity extends ParseObject {
     )))
   }
 
-  def getActivity(id: String, headers: Headers): Future[WSResponse] = {
-    return super.retrieveObject(id)(addHeaders(headers))
+  def getActivity(id: String, headers: Headers, query: Map[String, Seq[String]]): Future[WSResponse] = {
+    return super.retrieveObject(id)(addHeaders(headers), addQueryStrings(query))
   }
 
-  def getActivities(headers: Headers): Future[WSResponse] = {
-    return super.retrieveObjects(addHeaders(headers))
+  def getActivities(headers: Headers, query: Map[String, Seq[String]]): Future[WSResponse] = {
+    return super.retrieveObjects(addHeaders(headers), addQueryStrings(query))
   }
 
-  def updateActivity(id: String, userID: String, storeID: String, amountDonated: String, headers: Headers): Future[WSResponse] = {
+  def updateActivity(id: String, amountDonated: String): Future[WSResponse] = {
     return super.updateObject(id, JsObject(Seq(
-      "userID" -> JsObject(Seq(
-        "__type" -> JsString("Pointer"),
-        "className" -> JsString("_User"),
-        "objectId" -> JsString(userID)
-      )),
-      "storeID" -> JsObject(Seq(
-        "__type" -> JsString("Pointer"),
-        "className" -> JsString("Store"),
-        "objectId" -> JsString(storeID)
-      )),
       "amountDonated" -> JsNumber(BigDecimal(amountDonated))
     )))
   }

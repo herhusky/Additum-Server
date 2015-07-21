@@ -2,7 +2,7 @@ package models
 
 import play.api.Play.current
 import play.api.libs.json.JsValue
-import play.api.libs.ws.{WS, WSResponse}
+import play.api.libs.ws.{WS, WSRequestHolder, WSResponse}
 import play.api.mvc.Headers
 
 import scala.collection.mutable.HashMap
@@ -29,12 +29,26 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def createObject(data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
-    return WS.url(baseURL + "/" + className)
+  def createObject(data: JsValue)(implicit headers: List[Option[String Tuple2 String]],
+                                  query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return generateHolder(baseURL + "/" + className)(headers, query)
+      .post(data)
+  }
+
+  /**
+   * Generates generic WSRequestHolder for functions in ParseObject
+   * @param url
+   * @param headers
+   * @param query
+   * @return
+   */
+  def generateHolder(url: String)(implicit headers: List[Option[String Tuple2 String]],
+                                  query: List[Option[String Tuple2 String]]): WSRequestHolder = {
+    return WS.url(url)
       .withHeaders(ParseAppID, ParseRESTKey, ContentType)
       .withHeaders(headers.flatten.toSeq: _*)
+      .withQueryString(query.flatten.toSeq: _*)
       .withFollowRedirects(true)
-      .post(data)
   }
 
   /**
@@ -44,11 +58,9 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def retrieveObject(objectId: String)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
-    return WS.url(baseURL + "/" + className + "/" + objectId)
-      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
-      .withHeaders(headers.flatten.toSeq: _*)
-      .withFollowRedirects(true)
+  def retrieveObject(objectId: String)(implicit headers: List[Option[String Tuple2 String]],
+                                       query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return generateHolder(baseURL + "/" + className + "/" + objectId)(headers, query)
       .get()
   }
 
@@ -58,11 +70,9 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def retrieveObjects(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
-    return WS.url(baseURL + "/" + className)
-      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
-      .withHeaders(headers.flatten.toSeq: _*)
-      .withFollowRedirects(true)
+  def retrieveObjects(implicit headers: List[Option[String Tuple2 String]],
+                      query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return generateHolder(baseURL + "/" + className)(headers, query)
       .get()
   }
 
@@ -74,11 +84,9 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
-    return WS.url(baseURL + "/" + className + "/" + objectId)
-      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
-      .withHeaders(headers.flatten.toSeq: _*)
-      .withFollowRedirects(true)
+  def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]],
+                                                    query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return generateHolder(baseURL + "/" + className + "/" + objectId)(headers, query)
       .put(data)
   }
 
@@ -91,6 +99,19 @@ trait ParseObject {
   def addHeaders(headers: Headers): List[Option[String Tuple2 String]] = {
     return headers.toSimpleMap.-("Accept").-("User-Agent").-("Content-type").-("Content-Length").-("Host").map {
       case (k, v) => Some(k.toString, v.toString)
+    }.toList
+  }
+
+  /**
+   * Converts Query objects from request to required param type for future function calls
+   * @todo at this point the Tuple2 created will only have the head of Seq from Map values. Fix it for
+   *       all values in the Seq
+   * @param query
+   * @return
+   */
+  def addQueryStrings(query: Map[String, Seq[String]]): List[Option[String Tuple2 String]] = {
+    return query.map {
+      case (k, v) => Some(k.toString, v.head.toString)
     }.toList
   }
 }
