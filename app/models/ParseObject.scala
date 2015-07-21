@@ -53,6 +53,20 @@ trait ParseObject {
   }
 
   /**
+   * Retrieves a number of objects from the given class.
+   * Add headers for more control over which objects to return
+   * @param headers
+   * @return
+   */
+  def retrieveObjects(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return WS.url(baseURL + "/" + className)
+      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
+      .withHeaders(headers.flatten.toSeq: _*)
+      .withFollowRedirects(true)
+      .get()
+  }
+
+  /**
    * Updates the object with objectId and given class, with the given data. If you just want to
    * update and object, headers can be specified as null. Special headers can be specified for special operations.
    * @param objectId
@@ -60,7 +74,13 @@ trait ParseObject {
    * @param headers
    * @return
    */
-  def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = ???
+  def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    return WS.url(baseURL + "/" + className + "/" + objectId)
+      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
+      .withHeaders(headers.flatten.toSeq: _*)
+      .withFollowRedirects(true)
+      .put(data)
+  }
 
   /**
    * Converts Headers object to required param type for future function calls,

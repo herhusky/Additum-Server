@@ -19,8 +19,24 @@ object Activity extends Controller {
 
   def getActivity(id: String) = Action.async { implicit request =>
     models.Activity.getActivity(id, request.headers).map {
-      response =>
-        Ok(response.json.toString)
+      response => Ok(response.json.toString)
+    }
+  }
+
+  def getActivities = Action.async { implicit request =>
+    models.Activity.getActivities(request.headers).map {
+      response => Ok(response.json.toString)
+    }
+  }
+
+  def updateActivity(id: String) = Action.async { implicit request =>
+    models.Activity.updateActivity(id,
+      request.body.asJson.get.\("userID").toString,
+      request.body.asJson.get.\("storeID").toString,
+      request.body.asJson.get.\("amountDonated").toString,
+      request.headers)
+      .map {
+      response => Ok(response.json.toString)
     }
   }
 }

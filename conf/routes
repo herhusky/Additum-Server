@@ -10,7 +10,9 @@ GET         /assets/*file        controllers.Assets.at(path="/public", file)
 
 # Activity Routes
 GET         /activity/:id        controllers.Activity.getActivity(id: String)
+GET         /activity            controllers.Activity.getActivities
 POST        /activity            controllers.Activity.createActivity
+PUT         /activity/:id        controllers.Activity.updateActivity(id: String)
 
 # Charity Routes
 
