@@ -1,7 +1,7 @@
 package models
 
 import play.api.Play.current
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsObject, JsUndefined, JsValue}
 import play.api.libs.ws.{WS, WSRequestHolder, WSResponse}
 import play.api.mvc.Headers
 
@@ -87,7 +87,7 @@ trait ParseObject {
   def updateObject(objectId: String, data: JsValue)(implicit headers: List[Option[String Tuple2 String]],
                                                     query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
     return generateHolder(baseURL + "/" + className + "/" + objectId)(headers, query)
-      .put(data)
+      .put(notNullValues(data))
   }
 
   /**
@@ -113,5 +113,14 @@ trait ParseObject {
     return query.map {
       case (k, v) => Some(k.toString, v.head.toString)
     }.toList
+  }
+
+  def notNullValues(data: JsValue): JsValue = {
+    return JsObject(data.asInstanceOf[JsObject].fields.filter(t => withoutValue(t._2)))
+  }
+
+  def withoutValue(v: JsValue) = v match {
+    case _: JsUndefined => false
+    case _ => true
   }
 }
