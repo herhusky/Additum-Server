@@ -115,11 +115,11 @@ trait ParseObject {
     }.toList
   }
 
-  def notNullValues(data: JsValue): JsValue = {
+  private def notNullValues(data: JsValue): JsValue = {
     return JsObject(data.asInstanceOf[JsObject].fields.filter(t => withoutValue(t._2)))
   }
 
-  def withoutValue(v: JsValue) = v match {
+  private def withoutValue(v: JsValue) = v match {
     case _: JsUndefined => false
     case _ => true
   }
