@@ -10,14 +10,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object Charity extends Controller {
   def createCharity = Action.async { implicit request =>
     models.Charity.createCharity(
-      request.body.asJson.get.\("name").toString,
-      request.body.asJson.get.\("cause").toString,
-      request.body.asJson.get.\("totalDonations").toString,
-      request.body.asJson.get.\("abaRouting").toString,
-      request.body.asJson.get.\("bankAccount").toString,
-      request.body.asJson.get.\("accountType").toString,
-      request.body.asJson.get.\("bankName").toString,
-      request.body.asJson.get.\("accountName").toString)
+      request.body.asJson.get.\("name"),
+      request.body.asJson.get.\("cause"),
+      request.body.asJson.get.\("totalDonations"),
+      request.body.asJson.get.\("abaRouting"),
+      request.body.asJson.get.\("bankAccount"),
+      request.body.asJson.get.\("accountType"),
+      request.body.asJson.get.\("bankName"),
+      request.body.asJson.get.\("accountName"))
       .map {
       response => Ok(response.json.toString)
     }
@@ -39,14 +39,14 @@ object Charity extends Controller {
 
   def updateCharity(id: String) = Action.async { implicit request =>
     models.Charity.updateCharity(id,
-      request.body.asJson.get.\("name").toString,
-      request.body.asJson.get.\("cause").toString,
-      request.body.asJson.get.\("totalDonations").toString,
-      request.body.asJson.get.\("abaRouting").toString,
-      request.body.asJson.get.\("bankAccount").toString,
-      request.body.asJson.get.\("accountType").toString,
-      request.body.asJson.get.\("bankName").toString,
-      request.body.asJson.get.\("accountName").toString)
+      request.body.asJson.get.\("name"),
+      request.body.asJson.get.\("cause"),
+      request.body.asJson.get.\("totalDonations"),
+      request.body.asJson.get.\("abaRouting"),
+      request.body.asJson.get.\("bankAccount"),
+      request.body.asJson.get.\("accountType"),
+      request.body.asJson.get.\("bankName"),
+      request.body.asJson.get.\("accountName"))
       .map {
       response => Ok(response.json.toString)
     }

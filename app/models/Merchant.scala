@@ -1,6 +1,6 @@
 package models
 
-import play.api.libs.json.{JsNumber, JsObject, JsString}
+import play.api.libs.json.{JsObject, JsString, JsValue}
 import play.api.libs.ws.WSResponse
 import play.api.mvc.Headers
 
@@ -12,30 +12,30 @@ import scala.concurrent.Future
 object Merchant extends ParseObject {
   val className: String = "Merchant"
 
-  def createMerchant(name: String,
-                     business: String,
-                     website: String,
-                     charity: String,
-                     abaRouting: String,
-                     bankAccount: String,
-                     accountType: String,
-                     bankName: String,
-                     accountName: String): Future[WSResponse] = {
+  def createMerchant(name: JsValue,
+                     business: JsValue,
+                     website: JsValue,
+                     charity: JsValue,
+                     abaRouting: JsValue,
+                     bankAccount: JsValue,
+                     accountType: JsValue,
+                     bankName: JsValue,
+                     accountName: JsValue): Future[WSResponse] = {
     return super.createObject(JsObject(Seq(
-      "name" -> JsString(name),
-      "business" -> JsString(business),
-      "website" -> JsString(website),
+      "name" -> name,
+      "business" -> business,
+      "website" -> website,
       "charity" -> JsObject(Seq(
         "__type" -> JsString("Relation"),
         "className" -> JsString("Charity"),
-        "objectId" -> JsString(charity)
+        "objectId" -> charity
       )),
-      "abaRouting" -> JsNumber(BigDecimal(abaRouting)),
-      "bankAccount" -> JsString(bankAccount),
-      "accountName" -> JsString(accountName),
-      "accountType" -> JsString(accountName),
-      "bankName" -> JsString(bankName),
-      "accountName" -> JsString(accountName)
+      "abaRouting" -> abaRouting,
+      "bankAccount" -> bankAccount,
+      "accountName" -> accountName,
+      "accountType" -> accountName,
+      "bankName" -> bankName,
+      "accountName" -> accountName
     )))
   }
 
@@ -48,30 +48,30 @@ object Merchant extends ParseObject {
   }
 
   def updateMerchant(id: String,
-                     name: String,
-                     business: String,
-                     website: String,
-                     charity: String,
-                     abaRouting: String,
-                     bankAccount: String,
-                     accountType: String,
-                     bankName: String,
-                     accountName: String): Future[WSResponse] = {
+                     name: JsValue,
+                     business: JsValue,
+                     website: JsValue,
+                     charity: JsValue,
+                     abaRouting: JsValue,
+                     bankAccount: JsValue,
+                     accountType: JsValue,
+                     bankName: JsValue,
+                     accountName: JsValue): Future[WSResponse] = {
     return super.updateObject(id, JsObject(Seq(
-      "name" -> JsString(name),
-      "business" -> JsString(business),
-      "website" -> JsString(website),
+      "name" -> name,
+      "business" -> business,
+      "website" -> website,
       "charity" -> JsObject(Seq(
         "__type" -> JsString("Relation"),
         "className" -> JsString("Charity"),
-        "objectId" -> JsString(charity)
+        "objectId" -> charity
       )),
-      "abaRouting" -> JsNumber(BigDecimal(abaRouting)),
-      "bankAccount" -> JsString(bankAccount),
-      "accountName" -> JsString(accountName),
-      "accountType" -> JsString(accountName),
-      "bankName" -> JsString(bankName),
-      "accountName" -> JsString(accountName)
+      "abaRouting" -> abaRouting,
+      "bankAccount" -> bankAccount,
+      "accountName" -> accountName,
+      "accountType" -> accountName,
+      "bankName" -> bankName,
+      "accountName" -> accountName
     )))
   }
 }

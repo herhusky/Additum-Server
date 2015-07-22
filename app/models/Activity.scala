@@ -12,20 +12,20 @@ import scala.concurrent.Future
 object Activity extends ParseObject {
   val className = "Activity"
 
-  def createActivity(userID: String, storeID: String, amountDonated: String): Future[WSResponse] = {
+  def createActivity(userID: JsValue, storeID: JsValue, amountDonated: JsValue): Future[WSResponse] = {
     return super.createObject(
       JsObject(Seq(
         "userID" -> JsObject(Seq(
           "__type" -> JsString("Pointer"),
           "className" -> JsString("_User"),
-          "objectId" -> JsString(userID)
+          "objectId" -> userID
         )),
         "storeID" -> JsObject(Seq(
           "__type" -> JsString("Pointer"),
           "className" -> JsString("Store"),
-          "objectId" -> JsString(storeID)
+          "objectId" -> storeID
         )),
-        "amountDonated" -> JsNumber(BigDecimal(amountDonated))
+        "amountDonated" -> amountDonated
       )))
   }
 
@@ -37,9 +37,9 @@ object Activity extends ParseObject {
     return super.retrieveObjects(addHeaders(headers), addQueryStrings(query))
   }
 
-  def updateActivity(id: String, amountDonated: String): Future[WSResponse] = {
+  def updateActivity(id: String, amountDonated: JsValue): Future[WSResponse] = {
     return super.updateObject(id, JsObject(Seq(
-      "amountDonated" -> JsNumber(BigDecimal(amountDonated))
+      "amountDonated" -> amountDonated
     )))
   }
 }

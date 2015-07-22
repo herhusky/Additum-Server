@@ -9,9 +9,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 object Activity extends Controller {
   def createActivity = Action.async { implicit request =>
-    models.Activity.createActivity(request.body.asJson.get.\("userID").toString,
-      request.body.asJson.get.\("storeID").toString,
-      request.body.asJson.get.\("amountDonated").toString)
+    models.Activity.createActivity(request.body.asJson.get.\("userID"),
+      request.body.asJson.get.\("storeID"),
+      request.body.asJson.get.\("amountDonated"))
       .map {
       response => Ok(response.json.toString)
     }
@@ -30,7 +30,7 @@ object Activity extends Controller {
   }
 
   def updateActivity(id: String) = Action.async { implicit request =>
-    models.Activity.updateActivity(id, request.body.asJson.get.\("amountDonated").toString)
+    models.Activity.updateActivity(id, request.body.asJson.get.\("amountDonated"))
       .map {
       response => Ok(response.json.toString)
     }

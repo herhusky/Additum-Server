@@ -10,15 +10,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object Merchant extends Controller {
   def createMerchant = Action.async { implicit request =>
     models.Merchant.createMerchant(
-      request.body.asJson.get.\("name").toString,
-      request.body.asJson.get.\("business").toString,
-      request.body.asJson.get.\("website").toString,
-      request.body.asJson.get.\("charity").toString,
-      request.body.asJson.get.\("abaRouting").toString,
-      request.body.asJson.get.\("bankAccount").toString,
-      request.body.asJson.get.\("accountType").toString,
-      request.body.asJson.get.\("bankName").toString,
-      request.body.asJson.get.\("accountName").toString
+      request.body.asJson.get.\("name"),
+      request.body.asJson.get.\("business"),
+      request.body.asJson.get.\("website"),
+      request.body.asJson.get.\("charity"),
+      request.body.asJson.get.\("abaRouting"),
+      request.body.asJson.get.\("bankAccount"),
+      request.body.asJson.get.\("accountType"),
+      request.body.asJson.get.\("bankName"),
+      request.body.asJson.get.\("accountName")
     ).map {
       response => Ok(response.json.toString)
     }
@@ -40,15 +40,15 @@ object Merchant extends Controller {
 
   def updateMerchant(id: String) = Action.async { implicit request =>
     models.Merchant.updateMerchant(id,
-      request.body.asJson.get.\("name").toString,
-      request.body.asJson.get.\("business").toString,
-      request.body.asJson.get.\("website").toString,
-      request.body.asJson.get.\("charity").toString,
-      request.body.asJson.get.\("abaRouting").toString,
-      request.body.asJson.get.\("bankAccount").toString,
-      request.body.asJson.get.\("accountType").toString,
-      request.body.asJson.get.\("bankName").toString,
-      request.body.asJson.get.\("accountName").toString)
+      request.body.asJson.get.\("name"),
+      request.body.asJson.get.\("business"),
+      request.body.asJson.get.\("website"),
+      request.body.asJson.get.\("charity"),
+      request.body.asJson.get.\("abaRouting"),
+      request.body.asJson.get.\("bankAccount"),
+      request.body.asJson.get.\("accountType"),
+      request.body.asJson.get.\("bankName"),
+      request.body.asJson.get.\("accountName"))
       .map {
       response => Ok(response.json.toString)
     }

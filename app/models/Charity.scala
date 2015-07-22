@@ -1,6 +1,6 @@
 package models
 
-import play.api.libs.json.{JsNumber, JsObject, JsString}
+import play.api.libs.json.{JsObject, JsValue}
 import play.api.libs.ws.WSResponse
 import play.api.mvc.Headers
 
@@ -12,24 +12,24 @@ import scala.concurrent.Future
 object Charity extends ParseObject {
   val className = "Charity"
 
-  def createCharity(name: String,
-                    cause: String,
-                    totalDonations: String,
-                    abaRouting: String,
-                    bankAccount: String,
-                    accountType: String,
-                    bankName: String,
-                    accountName: String): Future[WSResponse] = {
+  def createCharity(name: JsValue,
+                    cause: JsValue,
+                    totalDonations: JsValue,
+                    abaRouting: JsValue,
+                    bankAccount: JsValue,
+                    accountType: JsValue,
+                    bankName: JsValue,
+                    accountName: JsValue): Future[WSResponse] = {
     return super.createObject(
       JsObject(Seq(
-        "name" -> JsString(name),
-        "cause" -> JsString(cause),
-        "totalDonations" -> JsNumber(BigDecimal(totalDonations)),
-        "abaRouting" -> JsNumber(BigDecimal(abaRouting)),
-        "bankAccount" -> JsString(bankAccount),
-        "accountType" -> JsString(accountType),
-        "bankName" -> JsString(bankName),
-        "accountName" -> JsString(accountName)
+        "name" -> name,
+        "cause" -> cause,
+        "totalDonations" -> totalDonations,
+        "abaRouting" -> abaRouting,
+        "bankAccount" -> bankAccount,
+        "accountType" -> accountType,
+        "bankName" -> bankName,
+        "accountName" -> accountName
       )))
   }
 
@@ -42,24 +42,24 @@ object Charity extends ParseObject {
   }
 
   def updateCharity(id: String,
-                    name: String,
-                    cause: String,
-                    totalDonations: String,
-                    abaRouting: String,
-                    bankAccount: String,
-                    accountType: String,
-                    bankName: String,
-                    accountName: String): Future[WSResponse] = {
+                    name: JsValue,
+                    cause: JsValue,
+                    totalDonations: JsValue,
+                    abaRouting: JsValue,
+                    bankAccount: JsValue,
+                    accountType: JsValue,
+                    bankName: JsValue,
+                    accountName: JsValue): Future[WSResponse] = {
     return super.updateObject(id,
       JsObject(Seq(
-        "name" -> JsString(name),
-        "cause" -> JsString(cause),
-        "totalDonations" -> JsNumber(BigDecimal(totalDonations)),
-        "abaRouting" -> JsNumber(BigDecimal(abaRouting)),
-        "bankAccount" -> JsString(bankAccount),
-        "accountType" -> JsString(accountType),
-        "bankName" -> JsString(bankName),
-        "accountName" -> JsString(accountName)
+        "name" -> name,
+        "cause" -> cause,
+        "totalDonations" -> totalDonations,
+        "abaRouting" -> abaRouting,
+        "bankAccount" -> bankAccount,
+        "accountType" -> accountType,
+        "bankName" -> bankName,
+        "accountName" -> accountName
       )))
   }
 }
