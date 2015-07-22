@@ -20,8 +20,12 @@ GET         /charity             controllers.Charity.getCharities
 POST        /charity             controllers.Charity.createCharity
 PUT         /charity/:id         controllers.Charity.updateCharity(id: String)
 
-# User Routes
-
 # Merchant Routes
+GET         /merchant/:id        controllers.Merchant.getMerchant(id: String)
+GET         /merchant            controllers.Merchant.getMerchants
+POST        /merchant            controllers.Merchant.createMerchant
+PUT         /merchant/:id        controllers.Merchant.updateMerchant(id: String)
 
 # Store Routes
+
+# User Routes
