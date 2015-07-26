@@ -62,4 +62,17 @@ object Charity extends ParseObject {
         "accountName" -> accountName
       )))
   }
+
+  def addPaymentMethod(id: String,
+                       abaRouting: JsValue,
+                       bankAccount: JsValue,
+                       accountType: JsValue,
+                       bankName: JsValue,
+                       accountName: JsValue): Future[WSResponse] = {
+    val futureResponse: Future[WSResponse] = for {
+      createdNewPaymentMethodResponse <- models.Payment.createPaymentInfo(abaRouting, bankAccount, accountType, bankName, accountName);
+      relatedPaymentMethodToObject <- super.addRelation(id, "paymentInfo", "Payment", createdNewPaymentMethodResponse.json.\("objectId"))
+    } yield relatedPaymentMethodToObject
+    return futureResponse
+  }
 }

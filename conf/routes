@@ -18,6 +18,7 @@ PUT         /activity/:id                controllers.Activity.updateActivity(id:
 GET         /charity/:id                 controllers.Charity.getCharity(id: String)
 GET         /charity                     controllers.Charity.getCharities
 POST        /charity                     controllers.Charity.createCharity
+POST        /charity/payment/:id         controllers.Charity.addPaymentMethod(id: String)
 PUT         /charity/:id                 controllers.Charity.updateCharity(id: String)
 
 # Merchant Routes
