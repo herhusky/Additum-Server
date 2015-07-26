@@ -5,6 +5,7 @@ import play.api.libs.ws.WSResponse
 import play.api.mvc.Headers
 
 import scala.concurrent.Future
+import scala.util.Success
 
 /**
  * Created by deep on 7/16/15.
@@ -73,5 +74,18 @@ object Merchant extends ParseObject {
       "bankName" -> bankName,
       "accountName" -> accountName
     )))
+  }
+
+  def addPaymentMethod(id: String,
+                       abaRouting: JsValue,
+                       bankAccount: JsValue,
+                       accountType: JsValue,
+                       bankName: JsValue,
+                       accountName: JsValue): Future[WSResponse] = {
+    val futureResponse: Future[WSResponse] = for {
+      createdNewPaymentMethodResponse <- models.Payment.createPaymentInfo(abaRouting, bankAccount, accountType, bankName, accountName);
+      relatedPaymentMethodToObject <- super.addRelation(id, "paymentInfo", "Payment", createdNewPaymentMethodResponse.json.\("objectId"))
+    } yield relatedPaymentMethodToObject
+    return futureResponse
   }
 }

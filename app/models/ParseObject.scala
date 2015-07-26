@@ -1,7 +1,7 @@
 package models
 
 import play.api.Play.current
-import play.api.libs.json.{JsObject, JsUndefined, JsValue}
+import play.api.libs.json._
 import play.api.libs.ws.{WS, WSRequestHolder, WSResponse}
 import play.api.mvc.Headers
 
@@ -36,22 +36,6 @@ trait ParseObject {
   }
 
   /**
-   * Generates generic WSRequestHolder for functions in ParseObject
-   * @param url
-   * @param headers
-   * @param query
-   * @return
-   */
-  def generateHolder(url: String)(implicit headers: List[Option[String Tuple2 String]],
-                                  query: List[Option[String Tuple2 String]]): WSRequestHolder = {
-    return WS.url(url)
-      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
-      .withHeaders(headers.flatten.toSeq: _*)
-      .withQueryString(query.flatten.toSeq: _*)
-      .withFollowRedirects(true)
-  }
-
-  /**
    * Retrieves a single object with the objectId and the given class. If you just want to
    * retrieve an object, headers can be specified as null. Special headers can be specified for special operations.
    * @param objectId
@@ -77,6 +61,22 @@ trait ParseObject {
   }
 
   /**
+   * Generates generic WSRequestHolder for functions in ParseObject
+   * @param url
+   * @param headers
+   * @param query
+   * @return
+   */
+  def generateHolder(url: String)(implicit headers: List[Option[String Tuple2 String]],
+                                  query: List[Option[String Tuple2 String]]): WSRequestHolder = {
+    return WS.url(url)
+      .withHeaders(ParseAppID, ParseRESTKey, ContentType)
+      .withHeaders(headers.flatten.toSeq: _*)
+      .withQueryString(query.flatten.toSeq: _*)
+      .withFollowRedirects(true)
+  }
+
+  /**
    * Updates the object with objectId and given class, with the given data. If you just want to
    * update and object, headers can be specified as null. Special headers can be specified for special operations.
    * @param objectId
@@ -88,6 +88,41 @@ trait ParseObject {
                                                     query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
     return generateHolder(baseURL + "/" + className + "/" + objectId)(headers, query)
       .put(notNullValues(data))
+  }
+
+  private def notNullValues(data: JsValue): JsValue = {
+    return JsObject(data.asInstanceOf[JsObject].fields.filter(t => withoutValue(t._2)))
+  }
+
+  private def withoutValue(v: JsValue) = v match {
+    case _: JsUndefined => false
+    case _ => true
+  }
+
+  /**
+   *
+   * @param objectId object where to add this relation
+   * @param columnName column where to add this relation
+   * @param relatedClassName class to which this relation points to
+   * @param relatedObjectId object where this relation points to
+   * @param headers
+   * @param query
+   * @return
+   */
+  def addRelation(objectId: String, columnName: String, relatedClassName: String, relatedObjectId: JsValue)
+                 (implicit headers: List[Option[String Tuple2 String]], query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
+    val data: JsValue = JsObject(Seq(
+      columnName -> JsObject(Seq(
+        "__op" -> JsString("AddRelation"),
+        "objects" -> JsArray(Seq(JsObject(Seq(
+          "__type" -> JsString("Pointer"),
+          "className" -> JsString(relatedClassName),
+          "objectId" -> (relatedObjectId)
+        ))))
+      ))
+    ))
+    return generateHolder(baseURL + "/" + className + "/" + objectId)(headers, query)
+      .put(data)
   }
 
   /**
@@ -102,6 +137,7 @@ trait ParseObject {
     }.toList
   }
 
+
   /**
    * Converts Query objects from request to required param type for future function calls
    * @todo at this point the Tuple2 created will only have the head of Seq from Map values. Fix it for
@@ -113,14 +149,5 @@ trait ParseObject {
     return query.map {
       case (k, v) => Some(k.toString, v.head.toString)
     }.toList
-  }
-
-  private def notNullValues(data: JsValue): JsValue = {
-    return JsObject(data.asInstanceOf[JsObject].fields.filter(t => withoutValue(t._2)))
-  }
-
-  private def withoutValue(v: JsValue) = v match {
-    case _: JsUndefined => false
-    case _ => true
   }
 }

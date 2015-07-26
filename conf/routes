@@ -3,28 +3,29 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index
+GET         /                            controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file                controllers.Assets.at(path="/public", file)
 
 # Activity Routes
-GET         /activity/:id        controllers.Activity.getActivity(id: String)
-GET         /activity            controllers.Activity.getActivities
-POST        /activity            controllers.Activity.createActivity
-PUT         /activity/:id        controllers.Activity.updateActivity(id: String)
+GET         /activity/:id                controllers.Activity.getActivity(id: String)
+GET         /activity                    controllers.Activity.getActivities
+POST        /activity                    controllers.Activity.createActivity
+PUT         /activity/:id                controllers.Activity.updateActivity(id: String)
 
 # Charity Routes
-GET         /charity/:id         controllers.Charity.getCharity(id: String)
-GET         /charity             controllers.Charity.getCharities
-POST        /charity             controllers.Charity.createCharity
-PUT         /charity/:id         controllers.Charity.updateCharity(id: String)
+GET         /charity/:id                 controllers.Charity.getCharity(id: String)
+GET         /charity                     controllers.Charity.getCharities
+POST        /charity                     controllers.Charity.createCharity
+PUT         /charity/:id                 controllers.Charity.updateCharity(id: String)
 
 # Merchant Routes
-GET         /merchant/:id        controllers.Merchant.getMerchant(id: String)
-GET         /merchant            controllers.Merchant.getMerchants
-POST        /merchant            controllers.Merchant.createMerchant
-PUT         /merchant/:id        controllers.Merchant.updateMerchant(id: String)
+GET         /merchant/:id                controllers.Merchant.getMerchant(id: String)
+GET         /merchant                    controllers.Merchant.getMerchants
+POST        /merchant                    controllers.Merchant.createMerchant
+POST        /merchant/payment/:id        controllers.Merchant.addPaymentMethod(id: String)
+PUT         /merchant/:id                controllers.Merchant.updateMerchant(id: String)
 
 # Store Routes
 

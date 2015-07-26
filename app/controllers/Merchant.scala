@@ -53,4 +53,16 @@ object Merchant extends Controller {
       response => Ok(response.json.toString)
     }
   }
+
+  def addPaymentMethod(id: String) = Action.async { implicit request =>
+    models.Merchant.addPaymentMethod(id,
+      request.body.asJson.get.\("abaRouting"),
+      request.body.asJson.get.\("bankAccount"),
+      request.body.asJson.get.\("accountType"),
+      request.body.asJson.get.\("bankName"),
+      request.body.asJson.get.\("accountName")
+    ).map {
+      response => Ok(response.json.toString)
+    }
+  }
 }
