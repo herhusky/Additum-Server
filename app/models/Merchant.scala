@@ -5,7 +5,6 @@ import play.api.libs.ws.WSResponse
 import play.api.mvc.Headers
 
 import scala.concurrent.Future
-import scala.util.Success
 
 /**
  * Created by deep on 7/16/15.
@@ -16,12 +15,7 @@ object Merchant extends ParseObject {
   def createMerchant(name: JsValue,
                      business: JsValue,
                      website: JsValue,
-                     charity: JsValue,
-                     abaRouting: JsValue,
-                     bankAccount: JsValue,
-                     accountType: JsValue,
-                     bankName: JsValue,
-                     accountName: JsValue): Future[WSResponse] = {
+                     charity: JsValue): Future[WSResponse] = {
     return super.createObject(JsObject(Seq(
       "name" -> name,
       "business" -> business,
@@ -30,13 +24,7 @@ object Merchant extends ParseObject {
         "__type" -> JsString("Relation"),
         "className" -> JsString("Charity"),
         "objectId" -> charity
-      )),
-      "abaRouting" -> abaRouting,
-      "bankAccount" -> bankAccount,
-      "accountName" -> accountName,
-      "accountType" -> accountName,
-      "bankName" -> bankName,
-      "accountName" -> accountName
+      ))
     )))
   }
 
@@ -52,12 +40,7 @@ object Merchant extends ParseObject {
                      name: JsValue,
                      business: JsValue,
                      website: JsValue,
-                     charity: JsValue,
-                     abaRouting: JsValue,
-                     bankAccount: JsValue,
-                     accountType: JsValue,
-                     bankName: JsValue,
-                     accountName: JsValue): Future[WSResponse] = {
+                     charity: JsValue): Future[WSResponse] = {
     return super.updateObject(id, JsObject(Seq(
       "name" -> name,
       "business" -> business,
@@ -66,13 +49,7 @@ object Merchant extends ParseObject {
         "__type" -> JsString("Relation"),
         "className" -> JsString("Charity"),
         "objectId" -> charity
-      )),
-      "abaRouting" -> abaRouting,
-      "bankAccount" -> bankAccount,
-      "accountName" -> accountName,
-      "accountType" -> accountName,
-      "bankName" -> bankName,
-      "accountName" -> accountName
+      ))
     )))
   }
 

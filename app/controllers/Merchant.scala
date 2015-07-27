@@ -13,12 +13,7 @@ object Merchant extends Controller {
       request.body.asJson.get.\("name"),
       request.body.asJson.get.\("business"),
       request.body.asJson.get.\("website"),
-      request.body.asJson.get.\("charity"),
-      request.body.asJson.get.\("abaRouting"),
-      request.body.asJson.get.\("bankAccount"),
-      request.body.asJson.get.\("accountType"),
-      request.body.asJson.get.\("bankName"),
-      request.body.asJson.get.\("accountName")
+      request.body.asJson.get.\("charity")
     ).map {
       response => Ok(response.json.toString)
     }
@@ -43,12 +38,7 @@ object Merchant extends Controller {
       request.body.asJson.get.\("name"),
       request.body.asJson.get.\("business"),
       request.body.asJson.get.\("website"),
-      request.body.asJson.get.\("charity"),
-      request.body.asJson.get.\("abaRouting"),
-      request.body.asJson.get.\("bankAccount"),
-      request.body.asJson.get.\("accountType"),
-      request.body.asJson.get.\("bankName"),
-      request.body.asJson.get.\("accountName"))
+      request.body.asJson.get.\("charity"))
       .map {
       response => Ok(response.json.toString)
     }
