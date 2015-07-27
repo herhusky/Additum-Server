@@ -18,7 +18,7 @@ with the database hosted on [Parse](https://www.parse.com)
 * Store => Includes location, merchant
 
 ## REST API Reference
-* Activity
+* **Activity**
   * `GET /activity/:id` => 
     * @param: None
     * @return: activity with `id` as json string. empty, if no such activity is found
@@ -42,7 +42,7 @@ with the database hosted on [Parse](https://www.parse.com)
       * `amountDonated`: ~
     * @return: 
       * `updatedAt`: ~
-* Charity
+* **Charity**
   * `GET /charity/:id` => 
     * @info: ~
     * @params: None
@@ -78,7 +78,7 @@ with the database hosted on [Parse](https://www.parse.com)
       * `totalDonations`: do not updated. this will be updated by the server as per the activities
     * @return:
       * `updatedAt`: ~
-* Merchant
+* **Merchant**
   * `GET /merchant/:id` => 
     * @info: ~
     * @params: None
@@ -116,6 +116,81 @@ with the database hosted on [Parse](https://www.parse.com)
       * `charity`: ~
     * @return:
       * `updatedAt`: ~
+
+      
+## Example Usage
+### Charity
+###### Request #1
+```
+curl -X POST \
+  --header "Content-type: application/json" \
+  --data '{"name":"RedRover", "cause":"American Kidney Fund", "totalDonations": 50000}' \
+  https://additum-server.herokuapp.com/charity
+```
+###### Response #1
+```
+{
+    "createdAt": "2015-07-27T08:40:47.501Z",
+    "objectId": "5hIppVGHet"
+}
+```
+###### Request #2
+```
+curl -X GET \
+  --header "Content-type: application/json" \
+  https://additum-server.herokuapp.com/charity/5hIppVGHet
+```
+###### Response #2
+```
+{
+    "cause": "American Kidney Fund",
+    "createdAt": "2015-07-27T08:40:47.501Z",
+    "name": "RedRover",
+    "objectId": "5hIppVGHet",
+    "paymentInfo": {
+        "__type": "Relation",
+        "className": "Payment"
+    },
+    "totalDonations": 50000,
+    "updatedAt": "2015-07-27T08:40:47.501Z"
+}
+```
+
+### Merchant
+###### Request #1
+```
+curl -X POST \
+  --header "Content-type: application/json" \
+  --data '{"name":"Dicks Sporting Goods", "business":"Sporting Goods", "website": "dickssportinggoods.com/"}' \
+  https://additum-server.herokuapp.com/merchant
+```
+###### Response #1
+```
+{
+    "createdAt": "2015-07-27T08:45:11.481Z",
+    "objectId": "WBlifuGXXE"
+}
+```
+
+###### Request #2
+```
+{
+    "business": "Sporting Goods",
+    "charity": {
+        "__type": "Relation",
+        "className": "Charity"
+    },
+    "createdAt": "2015-07-27T08:45:11.481Z",
+    "name": "Dicks Sporting Goods",
+    "objectId": "WBlifuGXXE",
+    "paymentInfo": {
+        "__type": "Relation",
+        "className": "Payment"
+    },
+    "updatedAt": "2015-07-27T08:45:11.481Z",
+    "website": "dickssportinggoods.com/"
+}
+```
 
 ## Contributors
 * [Deep Randhawa](https://www.github.com/hermes95)
