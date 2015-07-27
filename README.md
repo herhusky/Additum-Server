@@ -191,6 +191,19 @@ curl -X POST \
     "website": "dickssportinggoods.com/"
 }
 ```
+###### Request #3
+```
+curl -X POST \
+  --header "Content-type: application/json" \
+  --data '{"abaRouting":987654321, "bankAccount":"Bank Account w/ Money", "accountType": "checkings", "bankName":"Chase Bank", "accountName": "Money"}' \
+  https://additum-server.herokuapp.com/merchant/payment/WBlifuGXXE
+```
+###### Response #3
+```
+{
+    "updatedAt": "2015-07-27T10:01:31.429Z"
+}
+```
 
 ## Contributors
 * [Deep Randhawa](https://www.github.com/hermes95)
