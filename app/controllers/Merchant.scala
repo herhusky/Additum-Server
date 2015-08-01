@@ -13,7 +13,8 @@ object Merchant extends Controller {
       request.body.asJson.get.\("name"),
       request.body.asJson.get.\("business"),
       request.body.asJson.get.\("website"),
-      request.body.asJson.get.\("charity")
+      request.body.asJson.get.\("charity"),
+      request.body.asJson.get.\("imageURL")
     ).map {
       response => Ok(response.json.toString)
     }

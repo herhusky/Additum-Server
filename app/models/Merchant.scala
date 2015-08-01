@@ -15,7 +15,8 @@ object Merchant extends ParseObject {
   def createMerchant(name: JsValue,
                      business: JsValue,
                      website: JsValue,
-                     charity: JsValue): Future[WSResponse] = {
+                     charity: JsValue,
+                     imageURL: JsValue): Future[WSResponse] = {
     return super.createObject(JsObject(Seq(
       "name" -> name,
       "business" -> business,
@@ -24,7 +25,8 @@ object Merchant extends ParseObject {
         "__type" -> JsString("Relation"),
         "className" -> JsString("Charity"),
         "objectId" -> charity
-      ))
+      )),
+      "imageURL" -> imageURL
     )))
   }
 
