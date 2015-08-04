@@ -56,7 +56,7 @@ trait ParseObject {
    */
   def retrieveObjects(implicit headers: List[Option[String Tuple2 String]],
                       query: List[Option[String Tuple2 String]]): Future[WSResponse] = {
-    return generateHolder(baseURL + "/" + className)(headers, query)
+    return generateHolder(baseURL + "/" + className)
       .get()
   }
 
